@@ -6,3 +6,8 @@ div.inputs {
     display:flex;
     background: lightgray
 }
+
+input.hidden {
+    display:none;
+}
+

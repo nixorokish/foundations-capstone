@@ -2,45 +2,58 @@ console.log('JS connected')
 
 const addAddressBtn = document.querySelector('#newAddressBtn')
 const linebreak = document.createElement("br")
+const addrInput = document.querySelector('#address')
+const nicknameInput = document.querySelector('#nickname')
+const submitBtn = document.querySelector('#submit-btn')
 
 function addInputBoxes() {
-    const items = document.getElementsByClassName('addrInput')
-    console.log('items = ', items)
-    console.log('length = ', items.length)
+    addrInput.removeAttribute("hidden")
+    nicknameInput.removeAttribute("hidden")
+    submitBtn.removeAttribute("hidden")
+    addAddressBtn.hidden = true
+}
 
-    if (items.length < 1) {
+function submitHandler(evt) {
+    evt.preventDefault()
+
+    const address = document.querySelector('#address').value
+    const nickname = document.querySelector('#nickname').value
+    let addresses = document.createElement('div')
+    address.id = "address-input"
+    addresses.innerHTML = `<p>${nickname} | ${address}</p>`
+    body.appendChild(addresses)
     
-        const addrInput = document.createElement('input') // create address input
-        addrInput.type = 'text'
-        addrInput.placeholder = 'copy address here'
-        addrInput.className = 'addrInput'
-
-        const addressesDiv = document.querySelector('#addresses') // find addresses div
-
-        addressesDiv.appendChild(addrInput, linebreak) // append addresses div
-
-        const nicknameInput = document.createElement('input') // create address input
-        nicknameInput.type = 'text'
-        nicknameInput.placeholder = 'add a nickname'
-
-        const nicknamesDiv = document.querySelector('#nicknames') // find nicknames div
-
-        nicknamesDiv.appendChild(nicknameInput, linebreak)
-    } else {
-        const p = document.createElement('p')
-        
-        p.innerText = "you need to enter an address before you can add more!"
-        const body = document.querySelector('#body')
-        body.appendChild(p)
-        
-        setTimeout(() => {body.removeChild(p)}, 2000)
-        
-    }
+    addrInput.value = ''
+    nicknameInput.value = ''
+    
+    addrInput.hidden = true
+    nicknameInput.hidden = true
+    submitBtn.hidden = true
+    addAddressBtn.hidden = false
+    
 }
 
 
+function getBal(e) {
+        axios
+            .get('/api/balances')
+            .then(res)
+    }
+    
+    addAddressBtn.addEventListener('click', addInputBoxes)
+    submitBtn.addEventListener('click', submitHandler)
+    
+    
+    
+    // document.getElementsByClassName will be an array
+    
+    
+    // } else {
+    //     const p = document.createElement('p')
+    //     p.innerText = "you need to enter an address before you can add more!"
+    //     const body = document.querySelector('#body')
+    //     body.appendChild(p)
+    //     setTimeout(() => {body.removeChild(p)}, 2000)
+    // }
 
-
-addAddressBtn.addEventListener('click', addInputBoxes)
-
-// document.getElementsByClassName will be an array
+    //testaddress: 0x413933b69b33174f246f32603CcAb9a1C95927Bd, bal = 600.0ETH

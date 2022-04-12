@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.3",
-    "rollbar": "^2.24.1"
+    "rollbar": "^2.24.1",
+    "web3": "^1.7.3"
   }
 }
