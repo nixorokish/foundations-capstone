@@ -35,10 +35,10 @@ function submitHandler(evt) {
     axios
         .post(baseURL, { address, nickname })
         .then(res => {
-            for (let i = 0; i < res.data.length; i++) {
+            addressList.innerHTML = ``
+            for (let i = 1; i < res.data.length; i++) {
                 let x = document.createElement('li') 
                 x.textContent = `${res.data[i].nickname} | ${res.data[i].address} | bal: ${res.data[i].balance}`
-                console.log(x)
                 addressList.appendChild(x)
             }
         })
