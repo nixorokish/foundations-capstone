@@ -1,4 +1,3 @@
-
 console.log('JS connected')
 
 baseURL = `http://localhost:4005/api/balances`
@@ -9,6 +8,7 @@ const addrInput = document.querySelector('#address')
 const nicknameInput = document.querySelector('#nickname')
 const submitBtn = document.querySelector('#submit-btn')
 const addrListDiv = document.querySelector('#addressListDiv')
+const addressList = document.querySelector('#addressList')
 
 const addressesCallback = ({ data: addresses }) => displayAddresses(addresses)
 
@@ -31,15 +31,23 @@ function submitHandler(evt) {
 
     const address = document.querySelector('#address').value
     const nickname = document.querySelector('#nickname').value
-
-    let addresses = document.createElement('div')
-    address.id = "address-input"
-    addresses.innerHTML = `<p>${nickname} | ${address}</p>`
-    body.appendChild(addresses)
-
-
-    axios.post(baseURL, { address, nickname })
     
+    axios
+        .post(baseURL, { address, nickname })
+        .then(res => {
+            for (let i = 0; i < res.data.length; i++) {
+                let x = document.createElement('li') 
+                x.textContent = `${res.data[i].nickname} | ${res.data[i].address} | bal: ${res.data[i].balance}`
+                console.log(x)
+                addressList.appendChild(x)
+            }
+        })
+     
+    // let addresses = document.createElement('div')
+    // address.id = "address-input"
+    // addresses.innerHTML = `<p>${nickname} | ${address}</p>`
+    // body.appendChild(addresses)
+
     addrInput.value = ''
     nicknameInput.value = ''
     
