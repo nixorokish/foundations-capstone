@@ -1,10 +1,23 @@
+
 console.log('JS connected')
+
+baseURL = `http://localhost:4005/api/balances`
 
 const addAddressBtn = document.querySelector('#newAddressBtn')
 const linebreak = document.createElement("br")
 const addrInput = document.querySelector('#address')
 const nicknameInput = document.querySelector('#nickname')
 const submitBtn = document.querySelector('#submit-btn')
+const addrListDiv = document.querySelector('#addressListDiv')
+
+const addressesCallback = ({ data: addresses }) => displayAddresses(addresses)
+
+function displayAddresses(arr) {
+    addrListDiv.innerHTML = ``
+    for (let i = 0; i < arr.length; i++) {
+        addrListDiv.innerHTML = `<p>${addresses.nickname}, ${addresses.address}</p>`
+    }
+}
 
 function addInputBoxes() {
     addrInput.removeAttribute("hidden")
@@ -18,10 +31,14 @@ function submitHandler(evt) {
 
     const address = document.querySelector('#address').value
     const nickname = document.querySelector('#nickname').value
+
     let addresses = document.createElement('div')
     address.id = "address-input"
     addresses.innerHTML = `<p>${nickname} | ${address}</p>`
     body.appendChild(addresses)
+
+
+    axios.post(baseURL, { address, nickname })
     
     addrInput.value = ''
     nicknameInput.value = ''
@@ -34,26 +51,37 @@ function submitHandler(evt) {
 }
 
 
-function getBal(e) {
-        axios
-            .get('/api/balances')
-            .then(res)
-    }
-    
-    addAddressBtn.addEventListener('click', addInputBoxes)
-    submitBtn.addEventListener('click', submitHandler)
-    
-    
-    
-    // document.getElementsByClassName will be an array
-    
-    
-    // } else {
-    //     const p = document.createElement('p')
-    //     p.innerText = "you need to enter an address before you can add more!"
-    //     const body = document.querySelector('#body')
-    //     body.appendChild(p)
-    //     setTimeout(() => {body.removeChild(p)}, 2000)
-    // }
 
-    //testaddress: 0x413933b69b33174f246f32603CcAb9a1C95927Bd, bal = 600.0ETH
+addAddressBtn.addEventListener('click', addInputBoxes)
+submitBtn.addEventListener('click', submitHandler)
+
+
+
+
+
+
+
+// function getBal(e) {
+//         let body = {
+//             globalID,
+//             nickname: nickname.value,
+//             address: address.value,
+//         }
+        
+//         axios
+//             .get('/api/balances')
+//             .then(res)
+//     }
+    
+// document.getElementsByClassName will be an array
+
+
+// } else {
+//     const p = document.createElement('p')
+//     p.innerText = "you need to enter an address before you can add more!"
+//     const body = document.querySelector('#body')
+//     body.appendChild(p)
+//     setTimeout(() => {body.removeChild(p)}, 2000)
+// }
+
+//testaddress: 0x413933b69b33174f246f32603CcAb9a1C95927Bd, bal = 600.0ETH

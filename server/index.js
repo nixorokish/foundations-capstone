@@ -1,8 +1,11 @@
 const express = require('express')
 const path = require('path')
 const addresses = []
+const cors = require('cors')
 
 const app = express()
+app.use(cors())
+app.use(express.json())
 
 const { checkBalance } = require(`./eth.js`)
 
@@ -20,18 +23,15 @@ rollbar.log('Hello world!')
 // app.use(express.static('public')) //static is css, js files, in front end etc.
 // // works for pushing to heroku
 
-// endpoint
-app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../index.html'))
-})
 
-app.post('/api/addresses', (req, res) => {
-  let address = req.body
-  addresses.push(address)
-  console.log(addresses)
-})
 
-app.get('/api/balances', checkBalance)
+// endpoint for heroku
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../index.html'))
+// })
+
+// other endpoints
+app.post(`/api/balances`, checkBalance)
 
 const PORT = process.env.PORT || 4005
 
