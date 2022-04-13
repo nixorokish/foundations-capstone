@@ -20,15 +20,15 @@ var rollbar = new Rollbar({
 // record a generic message and send it to Rollbar
 rollbar.log('Hello world!')
 
-// app.use(express.static('public')) //static is css, js files, in front end etc.
+app.use(express.static('public')) //static is css, js files, in front end etc.
 // // works for pushing to heroku
 
 
 
 // endpoint for heroku
-// app.get('/', (req, res) => {
-//     res.sendFile(path.join(__dirname, '../index.html'))
-// })
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../index.html'))
+})
 
 // other endpoints
 app.post(`/api/balances`, checkBalance)
