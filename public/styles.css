@@ -1,5 +1,11 @@
-h1 {
-    color:red;
+
+header {
+    font-size: xx-large;
+}
+
+h3 {
+    font-size: large;
+    font-weight: 600;
 }
 
 div.inputs {
@@ -11,3 +17,41 @@ input.hidden {
     display:none;
 }
 
+div.addressListDiv {
+    display:flex;
+    background: lightblue
+}
+
+div.controller-list {
+    list-style-type: none;
+    padding: 8px;
+    padding-right: 15px;
+    background-color: lightpink;
+    border: 20px;
+    border-color: black;
+}
+
+.navbar-list {
+    display: flex;
+    justify-content: space-around;
+    background-color: black;
+    color: white;
+    padding: 10px;
+    list-style-type: none;
+}
+
+.token-list {
+    padding-left: 20px;
+}
+
+.token-list-ul {
+    height: 80px;
+    width: 50px;
+    border: 5px;
+    overflow-y: scroll;
+    list-style-type: none;
+}
+
+.token-input {
+    width: 50px;
+}
