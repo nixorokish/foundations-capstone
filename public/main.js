@@ -11,15 +11,6 @@ const tokenSubmit = document.querySelector('#add-token-submit')
 const tokenInput = document.querySelector('#token-input')
 const tokenList = document.querySelector('#token-list-ul')
 
-const addressesCallback = ({ data: addresses }) => displayAddresses(addresses)
-
-function displayAddresses(arr) {
-    addrListDiv.innerHTML = ``
-    for (let i = 0; i < arr.length; i++) {
-        addrListDiv.innerHTML = `<p>${addresses.nickname}, ${addresses.address}</p>`
-    }
-}
-
 function addInputBoxes() {
     addrInput.removeAttribute("hidden")
     nicknameInput.removeAttribute("hidden")
@@ -58,30 +49,29 @@ function addedToken(evt) {
     tokenList.appendChild(tokenTicker)
 
     axios
-        .post(baseURL + 'api/tokenBal', { ticker })
+    .post(baseURL + 'api/tokenBal', { ticker })
+    .then(res => getAllTokens())
 }
 
 const printAllAddresses = () =>
     axios
-        .get(baseURL)
+        .get(baseURL + 'api/printAddresses')
         .then(res => {
             clearAddresses()
             populateAddresses(res)
         })
 
 const clearAddresses = () => {
-    addressListDiv.innerHTML = `<tr>
+    addrListDiv.innerHTML = `<tr>
                                 <th>nickname</th>
                                 <th>address</th>
                                 <!-- <th>shared?</th> -->
                                 </tr>`
-    addressListDiv.hidden = true
+    addrListDiv.hidden = true
 }
 
 const populateAddresses = (res) => {
-    if (res.data.length > 0) {
-        addressListDiv.hidden = false
-    }
+    if (res.data.length > 0) addrListDiv.hidden = false
     for (let i = 0; i < res.data.length; i++) {
         
         let tablerow = document.createElement('tr')
@@ -106,7 +96,32 @@ const populateAddresses = (res) => {
     }
 }
 
+const getAllTokens = () => {
+    axios
+        .get(baseURL + 'api/printTokens')
+        .then(res => {
+            clearTokens()
+            populateTokens(res)
+        })
+}
+
+const clearTokens = () => {
+    tokenList.innerHTML = ``
+    // tokenList.hidden = true
+}
+
+const populateTokens = (res) => {
+    if (res.data.length > 0) tokenList.hidden = false
+    for (let i = 0; i < res.data.length; i++) {
+        let listItem = document.createElement('li')
+        listItem.id = `${res.data[i]}-item`
+        listItem.textContent = `${res.data[i]}`
+        tokenList.appendChild(listItem)
+    }
+}
+
 printAllAddresses()
+getAllTokens()
 
 addAddressBtn.addEventListener('click', addInputBoxes)
 submitBtn.addEventListener('click', addedAnAddress)

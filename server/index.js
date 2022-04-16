@@ -5,10 +5,17 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-const { checkBalance, printAddresses, tokenBalance } = require(`./eth.js`)
+const { checkBalance, printAddresses, tokenBalance, printTokens, sendTokenBals, ethPrice } = require(`./eth.js`)
 
-// other endpoints
-app.get(`/`, printAddresses)
+
+
+
+// endpoints
+app.get(`/api/printAddresses`, printAddresses)
+app.get(`/api/printTokens`, printTokens)
+app.get(`/api/tokenBals`, sendTokenBals)
+app.get(`/api/ethPrice/`, ethPrice)
+
 app.post(`/api/balances`, checkBalance)
 app.post(`/api/tokenBal`, tokenBalance)
 
