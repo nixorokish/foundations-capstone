@@ -7,9 +7,6 @@ app.use(express.json())
 
 const { checkBalance, printAddresses, tokenBalance, printTokens, sendTokenBals, ethPrice } = require(`./eth.js`)
 
-
-
-
 // endpoints
 app.get(`/api/printAddresses`, printAddresses)
 app.get(`/api/printTokens`, printTokens)

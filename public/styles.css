@@ -1,6 +1,7 @@
 
 header {
     font-size: xx-large;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 h3 {
@@ -42,6 +43,7 @@ div.controller-list {
     color: white;
     padding: 10px;
     list-style-type: none;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .token-list {
@@ -63,4 +65,39 @@ div.controller-list {
 a.nav-links {
     color: white;
     text-decoration: none;
+}
+
+.overview-title-line {
+    display: flex;
+    justify-content: space-between;
+    padding-left: 5vw;
+    padding-right: 7vw;
+    font-size:x-large;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.ETHprice {
+    text-align: right;
+    padding-right: 7vw;
+    font-size: small;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.portfolio-table-ETH {
+    width: 100%;
+    text-align: right;
+    padding-left: 6vw;
+    padding-right: 8vw;
+}
+
+.column-1 {
+    text-align: left;
+}
+
+td {
+    padding: 0.2vw;
+}
+
+.portfolio-table-ETH {
+    font-family: 'Courier New', Courier, monospace;
 }
