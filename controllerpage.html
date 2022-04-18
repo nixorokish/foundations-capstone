@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>controller</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <link rel="stylesheet" href="/public/styles.css">
+</head>
+
+<header>
+  plain portfolio
+</header>
+
+<nav class="navbar">
+  <ul class="navbar-list">
+    <li class="nav-li"><a class="nav-links" href="./dashboard.html">dashboard</a></li>
+    <li class="nav-li active-page">controller</li>
+    <li class="nav-li">charts</li>
+  </ul>
+
+</nav>
+
+<body id="body">
+    
+    <div class="all-addresses" id="all-addresses">
+
+        <div class="add-address">
+          <h3>addresses to track
+              <button class="btn btn-dark btn-rounded" type="button" id="newAddressBtn">+</button>
+          </h3>
+        </div>
+
+        <div class="address-inputs">
+            <div class="inputs" id="inputs">
+                <input type="text" class="address" id="address" placeholder="copy address here" hidden></input>
+                <input type="text" class="nickname" id="nickname" placeholder="add a nickname" hidden></input>
+                <button id="submit-btn" hidden>add</button>
+            </div>
+        </div>
+
+        <table class="addressListDiv" id="addressListDiv">
+          <tr>
+            <th>nickname</th>
+            <th>address</th>
+            <th>shared</th>
+          </tr>
+        </table>
+
+    </div>
+
+    <div class="ERC20s">
+
+      <h3>balances to track</h3>
+      <div class="token-list">
+        <input class="token-input" type="text" placeholder="token" id="token-input"></input>
+        <button id="add-token-submit">+</button>
+        <ul class="token-list-ul" id="token-list-ul">
+        </ul>
+      </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script src="/public/main.js"></script>
+
+</body>
+</html>

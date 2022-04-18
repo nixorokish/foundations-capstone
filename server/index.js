@@ -19,3 +19,9 @@ app.post(`/api/tokenBal`, tokenBalance)
 const PORT = process.env.PORT || 4005
 
 app.listen(PORT,() => { console.log(`Listening on ${PORT}`)})
+
+
+//test addresses:
+
+//sassal.eth
+//0x648aA14e4424e0825A5cE739C8C68610e143FB79

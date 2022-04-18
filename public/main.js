@@ -44,7 +44,7 @@ function addedAnAddress(evt) {
 function addedToken(evt) {
 
     let tokenTicker = document.createElement('li')
-    ticker = tokenInput.value
+    ticker = tokenInput.value.toUpperCase()
     tokenTicker.textContent = ticker
     tokenList.appendChild(tokenTicker)
 

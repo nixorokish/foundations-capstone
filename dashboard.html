@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    
+    <title>dashboard</title>
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <link rel="stylesheet" href="/public/styles.css">
+</head>
+
+<header>
+  plain portfolio
+</header>
+
+<nav class="navbar">
+  <ul class="navbar-list">
+    <li class="nav-li active-page">dashboard</li>
+    <li class="nav-li"><a class="nav-links" href="./controllerpage.html"> controller</a></li>
+    <li class="nav-li">charts</li>
+  </ul>
+
+</nav>
+
+<body id="body">
+
+    <div class="ETHprice" id="ETHprice">
+
+    </div>
+    
+    <div class="overview" id="overview">
+
+        <div class="overview-title-line">
+
+          <div>overview</div>
+          <div id="put-net-here"></div>
+
+        </div>
+
+        <table class="portfolio-table-ETH" id="portfolio-table-ETH">
+
+          <tr class="headers" id="headers" hidden>
+            <th class="column-1">token</th>
+            <th>balance</th>
+            <th>USD value</th>
+            <th>% of net</th>
+          </tr>
+
+          <tr id="ETH" hidden></tr>
+
+          
+        </table>
+
+        <table class="portfolio-table-tokens" id="portfolio-table-tokens">
+          
+        </table>
+
+    </div>
+
+    <div class="ERC20s">
+
+      <h3>staked ETH</h3>
+      <div>
+       </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+
+    <script src="/public/dashboard.js"></script>
+
+</body>
+</html>
