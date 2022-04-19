@@ -13,6 +13,6 @@ html, css, javascript, node.js
 - view each token's total value percentage as part of your net worth
 
 ## screenshots:
-![dashboard before addresses and tokens are added](./images/dashboard1.png)
-![controller page after adding info](./images/controller.png)
-![dashboard after addresses and tokens are added](./images/dashboard2.png)
+![dashboard before addresses and tokens are added](./images/dashboard1.png "dashboard")
+![controller page after adding info](./images/controller.png "controller")
+![dashboard after addresses and tokens are added](./images/dashboard2.png "dashboard")
