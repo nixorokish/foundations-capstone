@@ -42,7 +42,6 @@ function addedAnAddress(evt) {
 }
 
 existingTokenArr = []
-
 function addedToken(evt) {
 
     tokenList.hidden = false
@@ -122,15 +121,11 @@ const clearTokens = () => {
 
 const populateTokens = (res) => {
     if (res.data.length > 0) tokenList.hidden = false
-    arr = []
     for (let i = 0; i < res.data.length; i++) {
-        arr.push(res.data[i])
-        if (!arr.includes(res.data[i])) {
-            let listItem = document.createElement('li')
-            listItem.id = `${res.data[i]}-item`
-            listItem.textContent = `${res.data[i]}`
-            tokenList.appendChild(listItem)
-        }
+        let listItem = document.createElement('li')
+        listItem.id = `${res.data[i]}-item`
+        listItem.textContent = `${res.data[i]}`
+        tokenList.appendChild(listItem)
     }
 }
 

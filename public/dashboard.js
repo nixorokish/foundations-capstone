@@ -3,7 +3,6 @@ console.log('JS connected')
 baseURL = `http://localhost:4005/`
 
 const portfolioTableETH = document.querySelector('#portfolio-table-ETH')
-// const portfolioTableTokens = document.querySelector('#portfolio-table-tokens')
 const ETHpriceDIV = document.querySelector('#ETHprice')
 const netWorthDIV = document.querySelector('#put-net-here')
 const ETHrow = document.querySelector('#ETH')
@@ -36,7 +35,7 @@ const clearETHrow = () => {
     ETHrow.innerHTML = ``
 }
 
-// called inside dispPortfolio, sums ETH from addresses, creates a ETH row in ETH table
+// called in dispPortfolio, sums ETH from addresses, creates a ETH row in ETH table
 const populateETHbalance = async (res) => {
     if (res.data.length > 0) {
         portfolioHeaders.hidden = false
@@ -201,5 +200,3 @@ getAllTokens()
 ETHprice()
 getNetWorth()
 appendNetWorthDIV()
-
-//testaddress: 0x413933b69b33174f246f32603CcAb9a1C95927Bd, bal = 600.0ETH

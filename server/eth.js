@@ -97,10 +97,6 @@ module.exports = {
                     tokenBal.coingeckoID = staticCGDB[i].id
                 }
             }
-            
-
-            console.log('!!!! coingeckoid: ', tokenBal.coingeckoID)
-
         
             let response = await CoinGeckoClient.coins.fetch(tokenBal.coingeckoID)
             try { let contractAddr = response.data.platforms.ethereum
@@ -124,7 +120,7 @@ module.exports = {
                 if (result) { 
                     var tokens = web3.utils.toBN(result).toString(); // Convert the result to a usable number string
                     bal = web3.utils.fromWei(tokens, 'ether')
-                    console.log('Tokens Owned: ' + bal); // Change the string to be in Ether not Wei, and show it in the console
+                    console.log(`${tokenBal.ticker} Tokens Owned: ${bal}`); // Change the string to be in Ether not Wei, and show it in the console
                     tokenBal.balance = parseFloat(bal)
                 }
                 else {
