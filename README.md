@@ -14,5 +14,9 @@ html, css, javascript, node.js
 
 ## screenshots:
 ![dashboard before addresses and tokens are added](./images/dashboard1.png "dashboard")
+------------
+------------
 ![controller page after adding info](./images/controller.png "controller")
+------------
+------------
 ![dashboard after addresses and tokens are added](./images/dashboard2.png "dashboard")
