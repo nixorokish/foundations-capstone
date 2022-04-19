@@ -117,3 +117,7 @@ td {
     font-size:8pt;
     color: gray
 }
+
+.add-address {
+    font-family: 'Courier New', Courier, monospace;
+}
