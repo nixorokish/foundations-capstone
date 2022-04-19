@@ -3,7 +3,7 @@ console.log('JS connected')
 baseURL = `http://localhost:4005/`
 
 const portfolioTableETH = document.querySelector('#portfolio-table-ETH')
-const portfolioTableTokens = document.querySelector('#portfolio-table-tokens')
+// const portfolioTableTokens = document.querySelector('#portfolio-table-tokens')
 const ETHpriceDIV = document.querySelector('#ETHprice')
 const netWorthDIV = document.querySelector('#put-net-here')
 const ETHrow = document.querySelector('#ETH')
@@ -41,37 +41,44 @@ const populateETHbalance = async (res) => {
     if (res.data.length > 0) {
         portfolioHeaders.hidden = false
         ETHrow.hidden = false
+
+        var val = res.data.reduce(function(acc, cv) {
+            return {
+                balance: acc.balance + cv.balance
+            }
+        })
+        
+        let ETHticker = document.createElement('td')
+        ETHticker.setAttribute('class', 'column-1')
+        ETHticker.textContent = `ETH`
+        ETHrow.appendChild(ETHticker)
+    
+        let ETHbal = document.createElement('td')
+    
+        ETHbal.textContent = (val.balance).toFixed(2)
+        ETHrow.appendChild(ETHbal)
+    
+        let ETHprice = await returnETHprice()
+        let totalVal = document.createElement('td')
+        totalVal.id = 'ETHtotalval'
+        totalVal.textContent = `$${((ETHprice)*val.balance).toFixed(2)}`
+        ETHrow.appendChild(totalVal)
+    
+    
+        let netWorth = await getNetWorth()
+        let ETHinUSD = await getETHtotalAllAddrUSD()
+        let percent = ((ETHinUSD / netWorth) * 100).toFixed(2)
+        let child = document.createElement('td')
+        child.textContent = `${percent}%`
+        
+        ETHrow.appendChild(child)
+    } else {
+        ETHrow.hidden = false
+        let youreBroke = document.createElement('p')
+        youreBroke.textContent = 'You need to go to the controller page and add some addresses!'
+        ETHrow.appendChild(youreBroke)
     }
     
-    var val = res.data.reduce(function(acc, cv) {
-        return {
-            balance: acc.balance + cv.balance
-        }
-    })
-    
-    let ETHticker = document.createElement('td')
-    ETHticker.setAttribute('class', 'column-1')
-    ETHticker.textContent = `ETH`
-    ETHrow.appendChild(ETHticker)
-
-    let ETHbal = document.createElement('td')
-    ETHbal.textContent = (val.balance).toFixed(2)
-    ETHrow.appendChild(ETHbal)
-
-    let ETHprice = await returnETHprice()
-    let totalVal = document.createElement('td')
-    totalVal.id = 'ETHtotalval'
-    totalVal.textContent = `$${((ETHprice)*val.balance).toFixed(2)}`
-    ETHrow.appendChild(totalVal)
-
-
-    let netWorth = await getNetWorth()
-    let ETHinUSD = await getETHtotalAllAddrUSD()
-    let percent = ((ETHinUSD / netWorth) * 100).toFixed(2)
-    let child = document.createElement('td')
-    child.textContent = `${percent}%`
-    
-    ETHrow.appendChild(child)
 }
 
 const getTokenTotalsInUSD = () => {
@@ -98,21 +105,26 @@ const getNetWorth = async () => {
 
 const appendNetWorthDIV = async () => {
     let netWorth = await getNetWorth()
-    netWorthDIV.innerHTML=`$${parseInt(netWorth)}`
+    if (!isNaN(parseInt(netWorth))) {
+        netWorthDIV.innerHTML=`net worth: $${parseInt(netWorth)}`
+    }
 }
 
 const getETHtotalAllAddrUSD = () => {
     return axios
         .get(baseURL + 'api/printAddresses')
         .then(async res => {
-            var val = res.data.reduce(function(acc, cv) {
-                return {
-                    balance: acc.balance + cv.balance
-                }
-            })
+            if (res.data.length > 0) {
+                var val = res.data.reduce(function(acc, cv) {
+                    return {
+                        balance: acc.balance + cv.balance
+                    }
+                })
+    
+                let ETHprice = await returnETHprice()
+                return (ETHprice * val.balance)
 
-            let ETHprice = await returnETHprice()
-            return (ETHprice * val.balance)
+            }
         })
         .catch((err) => console.log(err))
 }
@@ -137,11 +149,9 @@ const getAllTokens = () => {
 }
 
 const populateTokenBals = async (res) => {
-    if (res.data.length > 0) portfolioTableTokens.hidden = false
+    // if (res.data.length > 0) portfolioTableTokens.hidden = false
     
     tokensInList = []
-
-    console.log(res.data)
     
     // res.data is array of tokens
     for (let i = 0; i < res.data.length; i++) {
@@ -164,18 +174,11 @@ const populateTokenBals = async (res) => {
         let USDval = document.createElement('td')
         let USDvalue = ((balance * res.data[i].USDprice))
         USDval.textContent = `$${USDvalue.toFixed(2)}`
-        console.log('res.data', res.data)
-        console.log('ticker', ticker)
-        console.log('i', i)
-        console.log('res.data[i].balance', res.data[i].balance)
-        console.log('balance', balance)
-        console.log('USDvalue', USDvalue)
 
         let netWorth = await getNetWorth()
         let val = document.createElement('td')
         let percent = ((USDvalue / netWorth)*100).toFixed(2)
         val.textContent = `${percent}%`
-        console.log('percent', percent)
 
         if (USDvalue > 0.5 && (!tokensInList.includes(ticker))) {
             tokensInList.push(ticker)
@@ -191,16 +194,6 @@ const populateTokenBals = async (res) => {
         }
     }
     
-    // for (let i = 0; i < res.data.length; i++) {
-    //     let rowImLookingFor = document.querySelector('#' + res.data[i].ticker)
-        
-    //     let netWorth = await getNetWorth()
-    //     let val = document.createElement('td')
-    //     let USDvalue = ((res.data[i].balance * res.data[i].USDprice))
-    //     let percent = ((USDvalue / netWorth)*100).toFixed(2)
-    //     val.textContent = `${percent}%`
-    //     if (USDvalue > 0.5) rowImLookingFor.appendChild(val)
-    // }
 }
 
 displPortfolio()

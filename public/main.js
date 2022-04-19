@@ -41,16 +41,26 @@ function addedAnAddress(evt) {
     addAddressBtn.hidden = false
 }
 
+existingTokenArr = []
+
 function addedToken(evt) {
 
-    let tokenTicker = document.createElement('li')
-    ticker = tokenInput.value.toUpperCase()
-    tokenTicker.textContent = ticker
-    tokenList.appendChild(tokenTicker)
+    tokenList.hidden = false
+    
+    if (!existingTokenArr.includes(tokenInput.value)) {
+        let tokenTicker = document.createElement('li')
+        ticker = tokenInput.value.toUpperCase()
+        tokenTicker.textContent = ticker
+        tokenList.appendChild(tokenTicker)
+    }
+    
+    existingTokenArr.push(tokenInput.value)
 
     axios
     .post(baseURL + 'api/tokenBal', { ticker })
     .then(res => getAllTokens())
+
+    tokenInput.value = ''
 }
 
 const printAllAddresses = () =>
@@ -107,16 +117,20 @@ const getAllTokens = () => {
 
 const clearTokens = () => {
     tokenList.innerHTML = ``
-    // tokenList.hidden = true
+    tokenList.hidden = true
 }
 
 const populateTokens = (res) => {
     if (res.data.length > 0) tokenList.hidden = false
+    arr = []
     for (let i = 0; i < res.data.length; i++) {
-        let listItem = document.createElement('li')
-        listItem.id = `${res.data[i]}-item`
-        listItem.textContent = `${res.data[i]}`
-        tokenList.appendChild(listItem)
+        arr.push(res.data[i])
+        if (!arr.includes(res.data[i])) {
+            let listItem = document.createElement('li')
+            listItem.id = `${res.data[i]}-item`
+            listItem.textContent = `${res.data[i]}`
+            tokenList.appendChild(listItem)
+        }
     }
 }
 
@@ -127,8 +141,14 @@ addAddressBtn.addEventListener('click', addInputBoxes)
 submitBtn.addEventListener('click', addedAnAddress)
 tokenSubmit.addEventListener('click', addedToken)
 
-//testaddress: 
-// 0x413933b69b33174f246f32603CcAb9a1C95927Bd, bal = 600.0ETH
+//test addresses:
 
-// anothertest, sassal.eth
-// 0x648aa14e4424e0825a5ce739c8c68610e143fb79
+//sassal.eth
+//0x648aA14e4424e0825A5cE739C8C68610e143FB79
+//ENS, GTC, DAI, WETH, RPL
+
+//0xDa93c8286C47990e922406016f7eeDdbE41d9702
+//FWB, INDEX, LINK, GRID
+
+//0x4ae0EB1Ec41A0d420fD363f0fE9E0ce4fb0D1300
+//RPL

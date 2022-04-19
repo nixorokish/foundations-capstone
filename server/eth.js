@@ -10,14 +10,12 @@ let tokenGlobalID = 1
 const addresses = require(`./db.json`)
 const tokens = require(`./tokenBals.json`)
 const uniswapPrice = require('uniswap-price')
+const staticCGDB = require ('./coingecko-coinlist.json')
 
 module.exports = {
     checkBalance: (req, res) => {
         
         let { address, nickname } = req.body
-        console.log('req.body = ', req.body)
-        console.log('address = ', address)
-        console.log('nickname = ', nickname)
         
         let newAddress = {
             id: addressGlobalID,
@@ -32,8 +30,7 @@ module.exports = {
             web3.eth.getBalance(address)
             .then((balanceInWei) => {
                 balance = web3.utils.fromWei(balanceInWei);
-                newAddress.balance = parseInt(balance)
-                console.log("balance in ETH: ", balance);
+                newAddress.balance = parseFloat(balance)
                 addresses.push(newAddress)
                 res.status(200).send(addresses)
                 
@@ -54,7 +51,6 @@ module.exports = {
         for (let i = 0; i < addresses.length; i++) {
 
             let addr = addresses[i].address
-            console.log(addr)
     
             let coin = ''
     
@@ -70,48 +66,48 @@ module.exports = {
     
             tokenGlobalID++
         
-            let page = 1
-            let coinList = []
+            // let page = 1
+            // let coinList = []
 
-            for (let i = 0; i < 10; i++) {
+            // for (let i = 0; i < 20; i++) {
         
-                let response = await CoinGeckoClient.coins.all({order: 'market_cap_desc', page: page})
-                response = response.data
-                coinList = coinList.concat(response)
+            //     let response = await CoinGeckoClient.coins.all({order: 'market_cap_desc', page: page})
+            //     response = response.data
+            //     coinList = coinList.concat(response)
 
-                page++
-            }
+            //     page++
+            // }
         
-            for (let i = 0; i < coinList.length; i++) {
-                ticker = ticker.toUpperCase()
-                DBticker = coinList[i].symbol.toUpperCase()
-                if (ticker === DBticker) {
-                    let coinID = coinList[i].id
-                    tokenBal.coingeckoID = coinID
-                    console.log('did this')
+            // for (let i = 0; i < coinList.length; i++) {
+            //     ticker = ticker.toUpperCase()
+            //     DBticker = coinList[i].symbol.toUpperCase()
+            //     console.log(DBticker)
+            //     if (ticker === DBticker) {
+            //         let coinID = coinList[i].id
+            //         tokenBal.coingeckoID = coinID
+            //     }
+            // }
+
+            // console.log('coingeckoid: ', tokenBal.coingeckoID)
+            
+
+            
+            for (let i = 0; i < staticCGDB.length; i++) {
+                if (ticker.toUpperCase() === staticCGDB[i].symbol.toUpperCase()) {
+                    tokenBal.coingeckoID = staticCGDB[i].id
                 }
             }
             
-            console.log('!!!!coingeckoID = ', tokenBal.coingeckoID)
 
-            
-            dumbCoinList = await CoinGeckoClient.coins.list()
-            console.log(ticker)
+            console.log('!!!! coingeckoid: ', tokenBal.coingeckoID)
 
-            if (tokenBal.coingeckoID === '') {
-                
-                for (let i = 0; i < dumbCoinList.data.length; i++) {
-                    if (ticker.toUpperCase() === dumbCoinList.data[i].id.toUpperCase()) {
-                        console.log('and here')
-                        tokenBal.coingeckoID = dumbCoinList.data[i].id
-                    }
-                }
-            }
-            
         
             let response = await CoinGeckoClient.coins.fetch(tokenBal.coingeckoID)
-            let contractAddr = response.data.platforms.ethereum
-            tokenBal.contractAddr = contractAddr
+            try { let contractAddr = response.data.platforms.ethereum
+            tokenBal.contractAddr = contractAddr 
+            } catch(err) {
+                continue
+            }
         
             let data = await CoinGeckoClient.coins.fetch(tokenBal.coingeckoID, {})
             let price = data.data.market_data.current_price.usd
@@ -128,8 +124,6 @@ module.exports = {
                 if (result) { 
                     var tokens = web3.utils.toBN(result).toString(); // Convert the result to a usable number string
                     bal = web3.utils.fromWei(tokens, 'ether')
-                    console.log('contractAddr', tokenBal.contractAddr)
-                    console.log('token', tokenBal.ticker)
                     console.log('Tokens Owned: ' + bal); // Change the string to be in Ether not Wei, and show it in the console
                     tokenBal.balance = parseFloat(bal)
                 }
@@ -140,7 +134,6 @@ module.exports = {
             })
             
             tokens.push(tokenBal)
-            console.log(tokens)
     
         }
     },
